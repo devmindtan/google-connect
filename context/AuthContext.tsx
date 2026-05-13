@@ -1,9 +1,8 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useState } from "react";
 import {
   GoogleSignin
 } from "@react-native-google-signin/google-signin";
 import { useRouter } from "expo-router";
-
 interface GoogleAuthProfile {
   id: string;
   name: string | null;
@@ -32,17 +31,12 @@ export function AuthProvider({ children }: any) {
   const [user, setUser] = useState<GoogleAuthResponse | null>(null);
   const router = useRouter();
   
-    useEffect(() => {
-    GoogleSignin.configure({
-        webClientId: "636698450036-tr08uln29840s0a4kictaqmsonnm3nak.apps.googleusercontent.com", 
-    });
-  }, []);
-
   const logout = async () => {
     try {
       await GoogleSignin.signOut();
       
       setUser(null);
+      router.replace("/");
       
       console.log("Đã đăng xuất và xóa sạch trạng thái!");
     } catch (error) {
